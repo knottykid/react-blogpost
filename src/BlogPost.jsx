@@ -5,17 +5,30 @@ const BlogPost = () => {
     const [blog, setBlog] = useState([]);
 
     useEffect(() => {
-        console.log("useEffect blogPost.jsx");
-        const list = axios
+        axios
             .get("https://jsonplaceholder.typicode.com/posts")
             .then((post) => {
                 console.log({ post });
                 setBlog(post);
                 console.log({ setBlog });
+            })
+            .catch((err) => {
+                console.log("error with catch:", err);
             });
     }, []);
 
-    return <div></div>;
+    console.log("blog:", blog);
+    return (
+        <div>
+            <h1>Blog yeah!</h1>
+            {blog.map((bloggy) => (
+                <ul>
+                    <li>{bloggy.title}</li>
+                    <li></li>
+                </ul>
+            ))}
+        </div>
+    );
 };
 
 export default BlogPost;
