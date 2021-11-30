@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Container, Grid } from "@mui/material";
 
 const BlogPost = () => {
     const [blog, setBlog] = useState([]);
@@ -9,24 +10,29 @@ const BlogPost = () => {
             .get("https://jsonplaceholder.typicode.com/posts")
             .then((post) => {
                 console.log({ post });
-                setBlog(post);
+                setBlog(post.data);
                 console.log({ setBlog });
             })
             .catch((err) => {
                 console.log("error with catch:", err);
             });
+        return () => console.log("bye bye");
     }, []);
 
     console.log("blog:", blog);
     return (
         <div>
-            <h1>Blog yeah!</h1>
-            {blog.map((bloggy) => (
-                <ul>
-                    <li>{bloggy.title}</li>
-                    <li></li>
-                </ul>
-            ))}
+            <Container>
+                <Grid container spacing={3}>
+                    {blog.map((bloggy, index) => {
+                        if (!bloggy) {
+                            return <h1>Nothing yet</h1>;
+                        } else {
+                            return <h2>{bloggy.title}</h2>;
+                        }
+                    })}
+                </Grid>
+            </Container>
         </div>
     );
 };
